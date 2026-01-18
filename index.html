@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💝 App de Amor para Keyla</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --rosa: #ff6b9d;
+            --rosa-claro: #ffafcc;
+            --rosa-oscuro: #e84393;
+            --blanco: #ffffff;
+            --texto: #333333;
+            --sombra: rgba(255, 107, 157, 0.2);
+        }
+        
+        body {
+            background: linear-gradient(135deg, #ffe6ee 0%, #fff0f5 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: var(--blanco);
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px var(--sombra);
+            position: relative;
+        }
+        
+        /* Encabezado */
+        .header {
+            background: linear-gradient(to right, var(--rosa), var(--rosa-oscuro));
+            color: var(--blanco);
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .title {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            animation: latido 2s infinite;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        /* Contenido principal */
+        .content {
+            padding: 30px;
+        }
+        
+        /* Secciones */
+        .section {
+            display: none;
+            animation: aparecer 0.5s ease;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        .section-title {
+            color: var(--rosa-oscuro);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 3px solid var(--rosa-claro);
+            padding-bottom: 10px;
+        }
+        
+        /* Mensajes */
+        .message-box {
+            background: linear-gradient(to right, #fff5f9, #ffe6f0);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            border-left: 5px solid var(--rosa);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .message-text {
+            font-size: 1.5rem;
+            color: var(--texto);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .message-author {
+            color: var(--rosa-oscuro);
+            font-style: italic;
+            font-size: 1.1rem;
+        }
+        
+        /* Botones de navegación */
+        .nav-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .nav-btn {
+            background: linear-gradient(to right, var(--rosa-claro), var(--rosa));
+            color: var(--blanco);
+            border: none;
+            padding: 18px 15px;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px var(--sombra);
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px var(--sombra);
+            background: linear-gradient(to right, var(--rosa), var(--rosa-oscuro));
+        }
+        
+        .nav-btn i {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+        
+        /* Flores y corazones */
+        .flores {
+            font-size: 3rem;
+            text-align: center;
+            margin: 20px 0;
+            animation: flotar 3s infinite ease-in-out;
+        }
+        
+        .corazones-lluvia {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        
+        .corazon {
+            position: absolute;
+            font-size: 2rem;
+            animation: caer linear forwards;
+        }
+        
+        /* Contador de amor */
+        .contador {
+            text-align: center;
+            background: linear-gradient(45deg, #ff6b9d, #ff8e9d);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.3);
+        }
+        
+        .contador-numero {
+            font-size: 3rem;
+            font-weight: bold;
+            animation: palpitar 1s infinite;
+        }
+        
+        /* Animaciones */
+        @keyframes latido {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @keyframes aparecer {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes flotar {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes caer {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes palpitar {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: #fff5f9;
+            color: var(--rosa-oscuro);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--rosa-claro);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2rem;
+            }
+            
+            .nav-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .message-text {
+                font-size: 1.3rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .title {
+                font-size: 1.7rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Encabezado -->
+        <div class="header">
+            <h1 class="title">
+                <i class="fas fa-heart"></i> Para mi Keyla <i class="fas fa-heart"></i>
+            </h1>
+            <p class="subtitle">Una app creada con todo mi amor especialmente para ti</p>
+        </div>
+        
+        <!-- Contenido principal -->
+        <div class="content">
+            <!-- Sección de mensajes (activa por defecto) -->
+            <div id="mensajes" class="section active">
+                <h2 class="section-title">
+                    <i class="fas fa-envelope"></i> Mensajes de Amor
+                </h2>
+                <div class="message-box">
+                    <div class="message-text" id="mensaje-actual">
+                        Hola mi amor, cada día a tu lado es un regalo del universo.
+                    </div>
+                    <div class="message-author">- Para Keyla, con amor -</div>
+                </div>
+                <div class="flores" id="flores-mensaje">
+                    🌹🌸💐🌺🌷🌼
+                </div>
+            </div>
+            
+            <!-- Sección de flores -->
+            <div id="flores" class="section">
+                <h2 class="section-title">
+                    <i class="fas fa-spa"></i> Jardín de Flores
+                </h2>
+                <div class="message-box">
+                    <div class="flores" id="jardin-flores" style="font-size: 4rem;">
+                        🌸🌹🌺🌷💐🌻
+                    </div>
+                    <div class="message-text">
+                        Cada flor representa un momento especial contigo, Keyla.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sección de poemas -->
+            <div id="poemas" class="section">
+                <h2 class="section-title">
+                    <i class="fas fa-pen-fancy"></i> Poemas para ti
+                </h2>
+                <div class="message-box">
+                    <div class="message-text" id="poema-actual">
+                        Keyla, mi amor,<br>
+                        Eres mi sol,<br>
+                        Mi dulce flor,<br>
+                        Mi razón.
+                    </div>
+                    <div class="message-author">Poema #1</div>
+                </div>
+            </div>
+            
+            <!-- Sección de contador -->
+            <div id="contador" class="section">
+                <h2 class="section-title">
+                    <i class="fas fa-infinity"></i> Contador de Amor
+                </h2>
+                <div class="contador">
+                    <div>Mi amor por ti equivale a:</div>
+                    <div class="contador-numero" id="contador-numero">∞</div>
+                    <div>veces el infinito</div>
+                </div>
+                <div class="message-box">
+                    <div class="message-text">
+                        Keyla, mi amor por ti es tan grande que no cabe en este universo.
+                        Crece cada segundo, cada minuto, cada hora.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sección de sorpresa -->
+            <div id="sorpresa" class="section">
+                <h2 class="section-title">
+                    <i class="fas fa-gift"></i> Sorpresa Especial
+                </h2>
+                <div class="message-box">
+                    <div class="message-text" id="texto-sorpresa">
+                        Preparando algo mágico para ti...
+                    </div>
+                    <button class="nav-btn" onclick="activarSorpresa()" style="margin-top: 20px; width: 200px;">
+                        <i class="fas fa-magic"></i> Activar Magia
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Botones de navegación -->
+            <div class="nav-buttons">
+                <button class="nav-btn" onclick="mostrarSeccion('mensajes')">
+                    <i class="fas fa-envelope"></i> Mensajes
+                </button>
+                <button class="nav-btn" onclick="mostrarSeccion('flores')">
+                    <i class="fas fa-spa"></i> Flores
+                </button>
+                <button class="nav-btn" onclick="mostrarSeccion('poemas')">
+                    <i class="fas fa-pen-fancy"></i> Poemas
+                </button>
+                <button class="nav-btn" onclick="mostrarSeccion('contador')">
+                    <i class="fas fa-infinity"></i> Contador
+                </button>
+                <button class="nav-btn" onclick="mostrarSeccion('sorpresa')">
+                    <i class="fas fa-gift"></i> Sorpresa
+                </button>
+                <button class="nav-btn" >
+                    <i class="fas fa-gift"></i> <a href="./src/febrero.html">Febrero</a> 
+                </button>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>💝 Creado con mucho amor especialmente para Keyla 💝</p>
+            <p id="fecha-actual"></p>
+            <p style="margin-top: 10px; font-size: 0.8rem;">
+                Esta página se actualiza automáticamente con nuevos mensajes de amor
+            </p>
+        </div>
+    </div>
+    
+    <!-- Contenedor para lluvia de corazones -->
+    <div class="corazones-lluvia" id="corazones-lluvia"></div>
+
+    <script>
+        // Datos de la aplicación
+        const mensajes = [
+            "💖 Keyla, cada día a tu lado es una bendición.",
+            "🌸 Tu sonrisa ilumina hasta el día más oscuro.",
+            "🌟 Eres la estrella que guía mi camino.",
+            "💕 Te amo más de lo que las palabras pueden expresar.",
+            "🌹 Eres mi persona favorita en todo el universo.",
+            "✨ Contigo aprendí el verdadero significado del amor.",
+            "💝 Eres mi sueño hecho realidad, mi amor.",
+            "🌺 Cada momento contigo es un tesoro que atesoro.",
+            "💘 Mi corazón late al ritmo de tu nombre: Keyla.",
+            "🌷 Eres la razón por la que creo en el destino.",
+            "💖 Keyla, gracias por ser exactamente como eres.",
+            "🌸 Con tu amor, todo es posible.",
+            "🌟 Eres mi hoy, mi mañana y mi siempre.",
+            "💕 Mi amor por ti crece más fuerte cada segundo.",
+            "🌹 Eres la melodía más bella en la sinfonía de mi vida."
+        ];
+        
+        const poemas = [
+            {
+                texto: "Keyla, nombre dulce y bello,\nEres mi amanecer, mi lucero,\nEn mi corazón tienes un sello,\nEres mi amor verdadero.",
+                autor: "Poema #1"
+            },
+            {
+                texto: "Tus ojos, dos luceros brillantes,\nTu sonrisa, mi sol radiante,\nEres la dueña de mis instantes,\nMi amor constante e importante.",
+                autor: "Poema #2"
+            },
+            {
+                texto: "En el jardín de la existencia,\nTú eres la más bella flor,\nLlenas mi vida de esencia,\nCon tu tierno y puro amor.",
+                autor: "Poema #3"
+            },
+            {
+                texto: "Keyla, mi musa inspiradora,\nMi dulce y bella canción,\nEres mi historia favorita,\nLa mejor de todas, sin duda alguna.",
+                autor: "Poema #4"
+            }
+        ];
+        
+        const floresCombinaciones = [
+            "🌹🌸🌺🌷🌼🌻",
+            "💐🌺🌸🌹🌷🌻",
+            "🌷🌼🌹🌸🌺💐",
+            "🌸🌹💐🌺🌷🌼",
+            "🌺🌷🌸🌼🌹💐"
+        ];
+        
+        // Variables globales
+        let indiceMensaje = 0;
+        let indicePoema = 0;
+        let indiceFlores = 0;
+        let contador = 0;
+        
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mostrar fecha actual
+            const ahora = new Date();
+            const opciones = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            document.getElementById('fecha-actual').textContent = 
+                `📅 ${ahora.toLocaleDateString('es-ES', opciones)}`;
+            
+            // Rotar mensajes automáticamente
+            setInterval(rotarMensaje, 5000);
+            
+            // Rotar flores automáticamente
+            setInterval(rotarFlores, 3000);
+            
+            // Animación contador
+            setInterval(animarContador, 100);
+            
+            // Generar algunos corazones iniciales
+            for(let i = 0; i < 15; i++) {
+                setTimeout(() => crearCorazon(), i * 100);
+            }
+        });
+        
+        // Funciones de navegación
+        function mostrarSeccion(seccionId) {
+            // Ocultar todas las secciones
+            document.querySelectorAll('.section').forEach(seccion => {
+                seccion.classList.remove('active');
+            });
+            
+            // Mostrar la sección seleccionada
+            document.getElementById(seccionId).classList.add('active');
+            
+            // Efectos especiales según la sección
+            switch(seccionId) {
+                case 'flores':
+                    animarFlores();
+                    break;
+                case 'contador':
+                    iniciarContador();
+                    break;
+                case 'sorpresa':
+                    prepararSorpresa();
+                    break;
+            }
+        }
+        
+        function rotarMensaje() {
+            indiceMensaje = (indiceMensaje + 1) % mensajes.length;
+            document.getElementById('mensaje-actual').textContent = mensajes[indiceMensaje];
+            
+            // Efecto de animación
+            const mensajeBox = document.querySelector('#mensajes .message-box');
+            mensajeBox.style.animation = 'none';
+            setTimeout(() => {
+                mensajeBox.style.animation = 'aparecer 0.5s ease';
+            }, 10);
+        }
+        
+        function rotarFlores() {
+            indiceFlores = (indiceFlores + 1) % floresCombinaciones.length;
+            document.getElementById('jardin-flores').textContent = floresCombinaciones[indiceFlores];
+        }
+        
+        function animarFlores() {
+            const jardin = document.getElementById('jardin-flores');
+            jardin.style.animation = 'none';
+            setTimeout(() => {
+                jardin.style.animation = 'flotar 3s infinite ease-in-out';
+            }, 10);
+            
+            // Crear lluvia de pétalos
+            for(let i = 0; i < 20; i++) {
+                setTimeout(() => crearPetalo(), i * 100);
+            }
+        }
+        
+        function crearPetalo() {
+            const petalo = document.createElement('div');
+            petalo.textContent = '🌸';
+            petalo.style.position = 'fixed';
+            petalo.style.fontSize = Math.random() * 20 + 15 + 'px';
+            petalo.style.left = Math.random() * 100 + 'vw';
+            petalo.style.top = '-50px';
+            petalo.style.zIndex = '999';
+            petalo.style.pointerEvents = 'none';
+            petalo.style.animation = `caer ${Math.random() * 3 + 2}s linear forwards`;
+            petalo.style.opacity = '0.7';
+            
+            document.body.appendChild(petalo);
+            
+            // Eliminar después de la animación
+            setTimeout(() => {
+                if (petalo.parentNode) {
+                    petalo.parentNode.removeChild(petalo);
+                }
+            }, 5000);
+        }
+        
+        function animarContador() {
+            contador += 17; // Aproximadamente 10 por segundo
+            if (contador > 9999) contador = 0;
+            document.getElementById('contador-numero').textContent = 
+                `∞ + ${contador}`;
+        }
+        
+        function iniciarContador() {
+            contador = 0;
+        }
+        
+        function prepararSorpresa() {
+            document.getElementById('texto-sorpresa').textContent = 
+                "Tengo una sorpresa muy especial para ti, Keyla. ¿Estás lista?";
+        }
+        
+        function activarSorpresa() {
+            // Cambiar texto
+            document.getElementById('texto-sorpresa').innerHTML = 
+                "🎉 ¡SORPRESA! 🎉<br><br>" +
+                "<span style='font-size: 2rem; color: #e84393;'>TE AMO KEYLA</span><br><br>" +
+                "💖 Hoy, mañana y siempre 💖";
+            
+            // Lluvia de corazones intensa
+            for(let i = 0; i < 100; i++) {
+                setTimeout(() => crearCorazon(), i * 50);
+            }
+            
+            // Efecto de confeti
+            crearConfeti();
+            
+            // Sonido de celebración (simulado con alerta visual)
+            const sorpresaBox = document.querySelector('#sorpresa .message-box');
+            sorpresaBox.style.animation = 'none';
+            setTimeout(() => {
+                sorpresaBox.style.animation = 'latido 0.5s ease 3';
+            }, 10);
+        }
+        
+        function crearCorazon() {
+            const corazon = document.createElement('div');
+            corazon.classList.add('corazon');
+            corazon.textContent = ['❤️', '🧡', '💛', '💚', '💙', '💜', '💖', '💕', '💓', '💗', '💘', '💝'][Math.floor(Math.random() * 12)];
+            
+            // Posición aleatoria
+            corazon.style.left = Math.random() * 100 + 'vw';
+            corazon.style.fontSize = Math.random() * 25 + 20 + 'px';
+            
+            // Duración aleatoria
+            const duracion = Math.random() * 3 + 2;
+            corazon.style.animation = `caer ${duracion}s linear forwards`;
+            
+            // Opacidad aleatoria
+            corazon.style.opacity = Math.random() * 0.5 + 0.5;
+            
+            document.getElementById('corazones-lluvia').appendChild(corazon);
+            
+            // Eliminar después de la animación
+            setTimeout(() => {
+                if (corazon.parentNode) {
+                    corazon.parentNode.removeChild(corazon);
+                }
+            }, duracion * 1000);
+        }
+        
+        function crearConfeti() {
+            const colores = ['#ff6b9d', '#ffafcc', '#e84393', '#fd79a8', '#ff8e9d'];
+            const formas = ['■', '●', '▲', '♥', '★'];
+            
+            for(let i = 0; i < 50; i++) {
+                const confeti = document.createElement('div');
+                confeti.textContent = formas[Math.floor(Math.random() * formas.length)];
+                confeti.style.position = 'fixed';
+                confeti.style.color = colores[Math.floor(Math.random() * colores.length)];
+                confeti.style.fontSize = Math.random() * 15 + 10 + 'px';
+                confeti.style.left = Math.random() * 100 + 'vw';
+                confeti.style.top = '-20px';
+                confeti.style.zIndex = '999';
+                confeti.style.pointerEvents = 'none';
+                confeti.style.fontWeight = 'bold';
+                
+                // Animación
+                const duracion = Math.random() * 2 + 1;
+                const rotacion = Math.random() * 720;
+                confeti.style.animation = `caer ${duracion}s linear forwards`;
+                confeti.style.transform = `rotate(${rotacion}deg)`;
+                
+                document.body.appendChild(confeti);
+                
+                // Eliminar después
+                setTimeout(() => {
+                    if (confeti.parentNode) {
+                        confeti.parentNode.removeChild(confeti);
+                    }
+                }, duracion * 1000);
+            }
+        }
+        
+        // Permitir cambiar mensajes con clic
+        document.getElementById('mensaje-actual').addEventListener('click', rotarMensaje);
+        document.getElementById('jardin-flores').addEventListener('click', rotarFlores);
+    </script>
+</body>
+</html>
