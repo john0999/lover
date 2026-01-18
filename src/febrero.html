@@ -1,11 +1,87 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FelizSanValentin</title>
+    <title>❤️ Una Sorpresa para San Valentín</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;500&display=swap" rel="stylesheet">
+   <link rel="icon" type="image/png" href="../images/logo.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #ffeff7 0%, #ffe8f1 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            color: #5c2233;
+        }
+        .heart {
+            color: #ff4081;
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            color: #b52b55;
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 500px;
+            line-height: 1.5;
+        }
+        .countdown {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 20px;
+            padding: 15px 25px;
+            box-shadow: 0 5px 15px rgba(181, 43, 85, 0.1);
+            margin-top: 1rem;
+        }
+        .countdown span {
+            font-weight: bold;
+            color: #ff4081;
+        }
+    </style>
 </head>
 <body>
-    <h1>Sera sorpresa</h1>
+    <div class="heart">❤️</div>
+    <h1>Una sorpresa muy especial...</h1>
+    <p class="subtitle">Se está preparando con todo el cariño para ti. Solo tendrás que esperar un poquito hasta el día más romántico del año.</p>
+    <div class="countdown">
+        <p>💝 Te la revelaré el <strong>14 de febrero</strong> 💝</p>
+        <p>Faltan solo <span id="days">--</span> días.</p>
+    </div>
+
+    <script>
+        // Contador de días hasta el 14 de febrero
+        function updateCountdown() {
+            const today = new Date();
+            const currentYear = today.getFullYear();
+            let valentineDate = new Date(currentYear, 1, 14); // Febrero es el mes 1 (0-indexado)
+            
+            // Si ya pasó este año, calculamos para el próximo
+            if (today > valentineDate) {
+                valentineDate = new Date(currentYear + 1, 1, 14);
+            }
+            
+            const diff = valentineDate - today;
+            const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+            
+            document.getElementById('days').textContent = days;
+        }
+        updateCountdown();
+    </script>
 </body>
 </html>
