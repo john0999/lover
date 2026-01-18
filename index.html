@@ -370,9 +370,15 @@
                 <button class="nav-btn" onclick="mostrarSeccion('sorpresa')">
                     <i class="fas fa-gift"></i> Sorpresa
                 </button>
-                <button class="nav-btn" >
-                    <i class="fas fa-gift"></i> <a href="./src/febrero.html">Febrero</a> 
+                <button class="nav-btn" id="btn-febrero">
+                    <i class="fas fa-gift"></i> Febrero
                 </button>
+
+                <script>
+                document.getElementById('btn-febrero').addEventListener('click', function() {
+                    window.location.href = './src/febrero.html';
+                });
+                </script>
             </div>
         </div>
         
