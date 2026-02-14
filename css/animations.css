@@ -1,0 +1,17 @@
+.corazon {
+    position: fixed;
+    font-size: 24px;
+    animation: caer 5s linear forwards;
+    pointer-events: none;
+}
+
+@keyframes caer {
+    from {
+        transform: translateY(-50px) rotate(0deg);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}

@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>❤️ Galería</title>
+    <link rel="icon" type="image/png" href="../images/logo.png">
+    <style>
+        :root {
+            --rosa: #ff4081;
+            --rosa-claro: #ffeef8;
+            --rosa-oscuro: #d81b60;
+            --texto: #2c3e50;
+            --texto-claro: #5a2d3a;
+            --sombra: rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fff5f9 0%, #fff0f6 100%);
+            color: var(--texto);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        /* Header mejorado */
+        .header {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(45deg, var(--rosa), #ff79a9, #ff9ebb);
+            background-size: 200% 200%;
+            animation: gradient 10s ease infinite;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(255, 64, 129, 0.3);
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            font-family: 'Dancing Script', cursive;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            animation: fadeInDown 1s ease;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Timeline mejorado */
+        .timeline {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, var(--rosa), #ff79a9, var(--rosa));
+            transform: translateX(-50%);
+            box-shadow: 0 0 10px var(--rosa);
+            border-radius: 2px;
+        }
+        
+        .momento {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 80px 0;
+            position: relative;
+        }
+        
+        .momento:nth-child(odd) {
+            flex-direction: row-reverse;
+        }
+        
+        /* Foto mejorada */
+        .foto {
+            width: 320px;
+            height: 220px;
+            background: #ddd;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(255, 64, 129, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+            border: 3px solid white;
+        }
+        
+        .foto:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 20px 40px rgba(255, 64, 129, 0.3);
+        }
+        
+        .foto::after {
+            content: '🔍';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .foto:hover::after {
+            opacity: 1;
+        }
+        
+        .foto img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .foto:hover img {
+            transform: scale(1.1);
+        }
+        
+        .foto.placeholder {
+            background: linear-gradient(45deg, #ffccd5, #ffb6c1, #ff9ebb);
+            background-size: 200% 200%;
+            animation: gradient 5s ease infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        /* Descripción mejorada - texto más legible */
+        .descripcion {
+            width: 350px;
+            padding: 30px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin: 0 40px;
+            position: relative;
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 64, 129, 0.2);
+        }
+        
+        .descripcion:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(255, 64, 129, 0.15);
+        }
+        
+        .momento:nth-child(odd) .descripcion {
+            text-align: right;
+        }
+        
+        .fecha {
+            color: var(--rosa);
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .fecha::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--rosa);
+            border-radius: 1px;
+        }
+        
+        .momento:nth-child(odd) .fecha::after {
+            left: auto;
+            right: 0;
+        }
+        
+        .descripcion p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--texto);
+            margin-top: 10px;
+            text-align: left;
+        }
+        
+        .momento:nth-child(odd) .descripcion p {
+            text-align: right;
+        }
+        
+        /* Punto de timeline mejorado */
+        .punto {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 24px;
+            height: 24px;
+            background: var(--rosa);
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 0 0 4px rgba(255, 64, 129, 0.3);
+            z-index: 2;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 64, 129, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(255, 64, 129, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 64, 129, 0);
+            }
+        }
+        
+        .momento:hover .punto {
+            transform: translate(-50%, -50%) scale(1.2);
+            background: var(--rosa-oscuro);
+        }
+        
+        /* Mensaje final mejorado */
+        .mensaje-final {
+            text-align: center;
+            padding: 80px 30px;
+            background: white;
+            margin: 60px auto;
+            max-width: 900px;
+            border-radius: 40px;
+            box-shadow: 0 20px 50px rgba(255,64,129,0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .mensaje-final::before {
+            content: '❤️';
+            position: absolute;
+            font-size: 150px;
+            opacity: 0.05;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+        
+        .mensaje-final h2 {
+            color: var(--rosa);
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .mensaje-final p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            max-width: 700px;
+            margin: 0 auto 20px;
+            position: relative;
+        }
+        
+        /* Heart cursor mejorado */
+        .heart-cursor {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1000;
+            font-size: 24px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            filter: drop-shadow(0 0 5px var(--rosa));
+        }
+        
+        /* Botón de música mejorado */
+        .musica-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(45deg, var(--rosa), #ff79a9);
+            color: white;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(255,64,129,0.4);
+            transition: all 0.3s ease;
+            z-index: 100;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .musica-btn:hover {
+            transform: scale(1.15) rotate(15deg);
+            box-shadow: 0 10px 30px rgba(255,64,129,0.6);
+        }
+        
+        /* MODAL PARA IMÁGENES */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(5px);
+            overflow: auto;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-contenido {
+            position: relative;
+            margin: auto;
+            padding: 20px;
+            width: 90%;
+            max-width: 1200px;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            animation: zoom 0.3s ease;
+        }
+        
+        @keyframes zoom {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        .modal-img-container {
+            position: relative;
+            width: 100%;
+            height: calc(100% - 80px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(255, 64, 129, 0.3);
+        }
+        
+        .modal-descripcion {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: white;
+            font-size: 1.2rem;
+            padding: 15px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            border-radius: 0 0 10px 10px;
+        }
+        
+        .cerrar-modal {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            z-index: 1002;
+        }
+        
+        .cerrar-modal:hover {
+            color: var(--rosa);
+            background: rgba(255,255,255,0.3);
+            transform: rotate(90deg);
+        }
+        
+        .nav-modal {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 20px;
+            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            z-index: 1002;
+        }
+        
+        .nav-modal:hover {
+            background: rgba(255,64,129,0.5);
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .nav-modal.prev {
+            left: 20px;
+        }
+        
+        .nav-modal.next {
+            right: 20px;
+        }
+        
+        .contador-modal {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            color: white;
+            font-size: 1rem;
+            background: rgba(0,0,0,0.5);
+            padding: 5px 15px;
+            border-radius: 20px;
+            z-index: 1002;
+        }
+        
+        /* Responsive mejorado */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .timeline::before {
+                left: 30px;
+            }
+            
+            .momento, .momento:nth-child(odd) {
+                flex-direction: column;
+                margin: 40px 0;
+            }
+            
+            .foto {
+                width: 280px;
+                height: 200px;
+                margin-bottom: 20px;
+            }
+            
+            .descripcion {
+                width: 280px;
+                margin: 20px 0 20px 40px;
+                text-align: left !important;
+            }
+            
+            .momento:nth-child(odd) .descripcion p {
+                text-align: left;
+            }
+            
+            .momento:nth-child(odd) .fecha::after {
+                left: 0;
+                right: auto;
+            }
+            
+            .punto {
+                left: 30px;
+            }
+            
+            .nav-modal {
+                font-size: 30px;
+                padding: 10px;
+            }
+            
+            .cerrar-modal {
+                top: 10px;
+                right: 20px;
+                font-size: 30px;
+            }
+        }
+        
+        /* Efectos adicionales */
+        .foto.cargada {
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="header">
+        <h1>Galería de recuerdos</h1>
+        <p>Cada momento contigo es un recuerdo que atesoro ❤️</p>
+    </div>
+    
+    <div class="timeline" id="timeline">
+        <!-- Momento 1 -->
+        <div class="momento" data-id="1">
+            <div class="foto placeholder" onclick="abrirModal(this)">
+                📸
+            </div>
+            <div class="punto"></div>
+            <div class="descripcion">
+                <div class="fecha">Primer Encuentro</div>
+                <p>El día que nuestras miradas se cruzaron por primera vez. Recuerdo perfectamente cómo el tiempo se detuvo cuando te vi. Fue mágico, como si el universo hubiera conspirado para que nuestros caminos se encontraran.</p>
+            </div>
+        </div>
+        
+        <!-- Momento 2 -->
+        <div class="momento" data-id="2">
+            <div class="descripcion">
+                <div class="fecha">La fecha que me ariesgue</div>
+                <p>El día que que me acerque a ti, me sentí como si el mundo se detuviera. Tu mensaje iluminó mi día y me hizo sentir seguro de que había encontrado a alguien especial.</p>
+            </div>
+            <div class="punto"></div>
+            <div class="foto placeholder" onclick="abrirModal(this)">
+                💑
+            </div>
+        </div>
+        
+        <!-- Momento 3 -->
+        <div class="momento" data-id="3">
+            <div class="foto placeholder" onclick="abrirModal(this)">
+                🎉
+            </div>
+            <div class="punto"></div>
+            <div class="descripcion">
+                <div class="fecha">Cada día contigo</div>
+                <p>Cada día es una nueva razón para sonreír. Me encanta cuando presumes de mí, y aunque a veces el trabajo me quita tiempo, quiero que sepas que todo lo que hago es pensando en tu felicidad. Gracias por ser mi mayor inspiración y por quererme tan bonito. Te amo <3.</p>
+            </div>
+        </div>
+        
+        <!-- Momento 4 -->
+        <div class="momento" data-id="4">
+            <div class="descripcion">
+                <div class="fecha">Primera foto</div>
+                <p>Gracias por mandarme tu foto, me alegraste el día de verdad. Esa imagen iluminó mi teléfono y también mi corazón. Desde entonces, cada foto tuya se ha convertido en mi tesoro más preciado.</p>
+            </div>
+            <div class="punto"></div>
+            <div class="foto placeholder" onclick="abrirModal(this)">
+                ✈️
+            </div>
+        </div>
+        <!-- Momento 5 -->
+        <div class="momento" data-id="5">
+            <div class="descripcion">
+                <div class="fecha">9 de febrero</div>
+                <p>Amor, cuando leí el mensaje que me hiciste por mi cumpleaños en el poster, no sabes cómo me llegó al corazón. Cada palabra, cada deseo, cada bendición... todo eso escrito por ti vale más que cualquier regalo. Me hiciste sentir muchas emociones al ver tanto amor en un solo poster. Gracias por tomarte el tiempo de hacerme sentir tan especial, gracias por ser tan detallista conmigo. Me siento el hombre más afortunado del mundo por tener a alguien como tú a mi lado. Te amo con todo mi corazón, mi vida.</p>
+            </div>
+            <div class="punto"></div>
+            <div class="foto placeholder" onclick="abrirModal(this)">
+                ✈️
+            </div>
+        </div>
+    </div>
+    
+    <div class="mensaje-final">
+        <h2>Y esto es solo el comienzo...</h2>
+        <p>Cada día a tu lado es una nueva página en nuestra historia. No puedo esperar para llenar muchos álbumes más con recuerdos contigo.</p>
+        <p>Gracias por existir y por cruzarte en mi camino. Gracias por cada mensaje, cada risa y por todo el amor que me das día a día. Eres lo mejor que me ha pasado y no sabes lo feliz que me haces. Gracias por ser como eres, por todo lo que compartimos y por llenar mis días de alegría. Te amo con todo mi corazón, hoy y siempre.</p>
+        <p style="margin-top: 20px; font-size: 1.2rem; color: var(--rosa);">
+            Siempre tuyo<br>
+            <strong>Johnny Morales</strong>
+        </p>
+    </div>
+    
+    <!-- <button class="musica-btn" onclick="playMusic()">🎵</button> -->
+
+    <!-- MODAL -->
+    <div id="modal" class="modal" onclick="cerrarModalClick(event)">
+        <span class="cerrar-modal" onclick="cerrarModal()">&times;</span>
+        
+        <div class="nav-modal prev" onclick="cambiarImagen(-1)">&#10094;</div>
+        <div class="nav-modal next" onclick="cambiarImagen(1)">&#10095;</div>
+        
+        <div class="modal-contenido">
+            <div class="modal-img-container">
+                <img class="modal-img" id="modalImg" src="" alt="Imagen ampliada">
+                <div class="modal-descripcion" id="modalDesc"></div>
+            </div>
+        </div>
+        
+        <div class="contador-modal" id="modalContador"></div>
+    </div>
+
+    <script>
+        // Variables para el modal
+        let imagenes = [];
+        let imagenesReales = [];
+        let indiceActual = 0;
+        const modal = document.getElementById('modal');
+        const modalImg = document.getElementById('modalImg');
+        const modalDesc = document.getElementById('modalDesc');
+        const modalContador = document.getElementById('modalContador');
+
+        // Efecto de corazones al hacer clic
+        document.addEventListener('click', function(e) {
+            // Evitar que se active al hacer clic en el modal o botones
+            if (e.target.closest('.modal') || e.target.closest('.musica-btn')) return;
+            
+            const heart = document.createElement('div');
+            heart.className = 'heart-cursor';
+            heart.innerHTML = '❤️';
+            heart.style.left = e.pageX + 'px';
+            heart.style.top = e.pageY + 'px';
+            heart.style.opacity = '1';
+            
+            document.body.appendChild(heart);
+            
+            // Animación
+            setTimeout(() => {
+                heart.style.transform = 'translateY(-50px) scale(1.5) rotate(15deg)';
+                heart.style.opacity = '0';
+            }, 10);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 1000);
+        });
+        
+        // Efecto de scroll para los momentos
+        const momentos = document.querySelectorAll('.momento');
+        
+        function checkScroll() {
+            momentos.forEach(momento => {
+                const rect = momento.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.8) {
+                    momento.style.opacity = '1';
+                    momento.style.transform = 'translateY(0)';
+                }
+            });
+        }
+        
+        // Inicializar opacidad
+        momentos.forEach(momento => {
+            momento.style.opacity = '0';
+            momento.style.transform = 'translateY(50px)';
+            momento.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+        });
+        
+        window.addEventListener('scroll', checkScroll);
+        window.addEventListener('load', checkScroll);
+        
+        // Función música
+        function playMusic() {
+            alert('🎶 Reproduciendo nuestra playlist especial...');
+            // Aquí podrías integrar Spotify/YouTube embebido
+        }
+        
+        // Cargar fotos reales (reemplazar los placeholders)
+        function cargarFotos() {
+            // Array de rutas de imágenes - ¡ACTUALIZA ESTAS RUTAS!
+            const rutasFotos = [
+                '../images/vista.png',      // Foto 1 - Primer encuentro
+                '../images/uno.png',   // Foto 2 - Primera foto
+                '../images/cadadia.png',     // Foto 3 - Aniversario
+                '../images/key.jpeg',
+                '../images/cumple.png'      // Foto 4 - Viaje
+            ];
+            
+            // Guardar para el modal
+            imagenesReales = rutasFotos;
+            
+            const fotos = document.querySelectorAll('.foto.placeholder');
+            
+            fotos.forEach((foto, index) => {
+                if (rutasFotos[index]) {
+                    // Crear imagen
+                    const img = document.createElement('img');
+                    img.src = rutasFotos[index];
+                    img.alt = `Recuerdo ${index + 1}`;
+                    
+                    // Manejar error de carga
+                    img.onerror = function() {
+                        console.log(`Error cargando imagen: ${rutasFotos[index]}`);
+                        foto.classList.add('placeholder');
+                        foto.innerHTML = '📸';
+                        foto.style.background = 'linear-gradient(45deg, #ffccd5, #ffb6c1)';
+                    };
+                    
+                    // Manejar carga exitosa
+                    img.onload = function() {
+                        foto.innerHTML = '';
+                        foto.appendChild(img);
+                        foto.classList.remove('placeholder');
+                        foto.classList.add('cargada');
+                        
+                        // Guardar imagen para el modal
+                        imagenes[index] = {
+                            src: rutasFotos[index],
+                            desc: obtenerDescripcion(index)
+                        };
+                    };
+                }
+            });
+        }
+        
+        // Obtener descripción para el modal
+        function obtenerDescripcion(index) {
+            const descripciones = [
+                'Nuestro primer encuentro - El día que cambió mi vida para siempre ❤️',
+                'Tu primera foto - El inicio de nuestra historia 📸',
+                'Celebrando nuestro primer año juntos 🎉',
+                'Nuestro viaje inolvidable - Aventuras juntos ✈️'
+            ];
+            return descripciones[index] || 'Momento especial juntos 💕';
+        }
+        
+        // FUNCIONES DEL MODAL
+        function abrirModal(elemento) {
+            // Encontrar el índice de la imagen
+            const foto = elemento.classList.contains('foto') ? elemento : elemento.closest('.foto');
+            if (!foto) return;
+            
+            const momento = foto.closest('.momento');
+            const index = Array.from(document.querySelectorAll('.momento')).indexOf(momento);
+            
+            indiceActual = index;
+            
+            // Obtener información de la imagen
+            const imgElement = foto.querySelector('img');
+            const descElement = momento.querySelector('.descripcion p');
+            
+            if (imgElement && imgElement.src) {
+                modalImg.src = imgElement.src;
+            } else {
+                // Si no hay imagen real, mostrar placeholder con estilo
+                modalImg.src = '';
+                modalImg.style.background = 'linear-gradient(45deg, #ffccd5, #ffb6c1)';
+                modalImg.style.padding = '50px';
+                modalImg.alt = 'Imagen no disponible';
+            }
+            
+            // Mostrar descripción
+            if (descElement) {
+                modalDesc.textContent = descElement.textContent;
+            } else {
+                modalDesc.textContent = obtenerDescripcion(index);
+            }
+            
+            // Actualizar contador
+            actualizarContador();
+            
+            // Mostrar modal
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Prevenir scroll
+        }
+        
+        function cerrarModal() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Restaurar scroll
+        }
+        
+        function cerrarModalClick(event) {
+            if (event.target === modal) {
+                cerrarModal();
+            }
+        }
+        
+        function cambiarImagen(direccion) {
+            const totalImagenes = imagenesReales.length;
+            
+            indiceActual = (indiceActual + direccion + totalImagenes) % totalImagenes;
+            
+            // Actualizar imagen
+            const fotoActual = document.querySelectorAll('.foto')[indiceActual];
+            const imgElement = fotoActual?.querySelector('img');
+            
+            if (imgElement && imgElement.src) {
+                modalImg.src = imgElement.src;
+            } else if (imagenesReales[indiceActual]) {
+                modalImg.src = imagenesReales[indiceActual];
+            }
+            
+            // Actualizar descripción
+            const momentoActual = document.querySelectorAll('.momento')[indiceActual];
+            const descElement = momentoActual?.querySelector('.descripcion p');
+            
+            if (descElement) {
+                modalDesc.textContent = descElement.textContent;
+            } else {
+                modalDesc.textContent = obtenerDescripcion(indiceActual);
+            }
+            
+            // Actualizar contador
+            actualizarContador();
+        }
+        
+        function actualizarContador() {
+            const total = imagenesReales.length;
+            modalContador.textContent = `${indiceActual + 1} / ${total}`;
+        }
+        
+        // Cerrar modal con tecla ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                cerrarModal();
+            } else if (e.key === 'ArrowLeft' && modal.style.display === 'block') {
+                cambiarImagen(-1);
+            } else if (e.key === 'ArrowRight' && modal.style.display === 'block') {
+                cambiarImagen(1);
+            }
+        });
+        
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarFotos();
+            
+            // Añadir efecto de carga a las imágenes
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+            
+            document.querySelectorAll('.momento').forEach(momento => {
+                observer.observe(momento);
+            });
+        });
+    </script>
+    <footer class="footer">
+    <div class="footer-container">
+        <div class="footer-copyright">
+            © <strong>2026</strong> Johnny Morales Gómez | Todos los derechos reservados
+        </div>
+    </div>
+</footer>
+
+<style>
+    /* FOOTER ESTÁTICO - SOLO DISEÑO */
+    .footer {
+        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        color: #ffffff;
+        padding: 25px 0;
+        margin-top: 50px;
+        border-top: 3px solid #ff4081;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        width: 100%;
+        box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        text-align: center;
+    }
+
+    .footer-copyright {
+        font-size: 1rem;
+        letter-spacing: 0.5px;
+        color: #e0e0e0;
+        line-height: 1.6;
+    }
+
+    .footer-copyright strong {
+        color: #ff79a9;
+        font-weight: 600;
+        margin: 0 2px;
+    }
+
+    /* Estilo para tablets */
+    @media (min-width: 768px) and (max-width: 1023px) {
+        .footer {
+            padding: 22px 0;
+        }
+        
+        .footer-copyright {
+            font-size: 0.95rem;
+        }
+    }
+
+    /* Estilo para móviles */
+    @media (max-width: 767px) {
+        .footer {
+            padding: 18px 0;
+            margin-top: 30px;
+        }
+        
+        .footer-copyright {
+            font-size: 0.85rem;
+            padding: 0 15px;
+            line-height: 1.5;
+        }
+        
+        .footer-copyright strong {
+            display: inline-block;
+        }
+    }
+
+    /* Estilo para pantallas muy pequeñas */
+    @media (max-width: 380px) {
+        .footer-copyright {
+            font-size: 0.8rem;
+        }
+    }
+</style>
+</body>
+</html>

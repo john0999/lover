@@ -6,261 +6,7 @@
     <title>💝 App de Amor para Keyla</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" type="image/png" href="./images/logo.png">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        :root {
-            --rosa: #ff6b9d;
-            --rosa-claro: #ffafcc;
-            --rosa-oscuro: #e84393;
-            --blanco: #ffffff;
-            --texto: #333333;
-            --sombra: rgba(255, 107, 157, 0.2);
-        }
-        
-        body {
-            background: linear-gradient(135deg, #ffe6ee 0%, #fff0f5 100%);
-            min-height: 100vh;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .container {
-            max-width: 800px;
-            width: 100%;
-            background: var(--blanco);
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: 0 15px 35px var(--sombra);
-            position: relative;
-        }
-        
-        /* Encabezado */
-        .header {
-            background: linear-gradient(to right, var(--rosa), var(--rosa-oscuro));
-            color: var(--blanco);
-            padding: 30px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .title {
-            font-size: 2.8rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-            animation: latido 2s infinite;
-        }
-        
-        .subtitle {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-        
-        /* Contenido principal */
-        .content {
-            padding: 30px;
-        }
-        
-        /* Secciones */
-        .section {
-            display: none;
-            animation: aparecer 0.5s ease;
-        }
-        
-        .section.active {
-            display: block;
-        }
-        
-        .section-title {
-            color: var(--rosa-oscuro);
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            text-align: center;
-            border-bottom: 3px solid var(--rosa-claro);
-            padding-bottom: 10px;
-        }
-        
-        /* Mensajes */
-        .message-box {
-            background: linear-gradient(to right, #fff5f9, #ffe6f0);
-            border-radius: 15px;
-            padding: 25px;
-            margin: 20px 0;
-            border-left: 5px solid var(--rosa);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            min-height: 200px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-        
-        .message-text {
-            font-size: 1.5rem;
-            color: var(--texto);
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-        
-        .message-author {
-            color: var(--rosa-oscuro);
-            font-style: italic;
-            font-size: 1.1rem;
-        }
-        
-        /* Botones de navegación */
-        .nav-buttons {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 30px;
-        }
-        
-        .nav-btn {
-            background: linear-gradient(to right, var(--rosa-claro), var(--rosa));
-            color: var(--blanco);
-            border: none;
-            padding: 18px 15px;
-            border-radius: 15px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 5px 15px var(--sombra);
-        }
-        
-        .nav-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px var(--sombra);
-            background: linear-gradient(to right, var(--rosa), var(--rosa-oscuro));
-        }
-        
-        .nav-btn i {
-            font-size: 1.8rem;
-            margin-bottom: 8px;
-        }
-        
-        /* Flores y corazones */
-        .flores {
-            font-size: 3rem;
-            text-align: center;
-            margin: 20px 0;
-            animation: flotar 3s infinite ease-in-out;
-        }
-        
-        .corazones-lluvia {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1000;
-        }
-        
-        .corazon {
-            position: absolute;
-            font-size: 2rem;
-            animation: caer linear forwards;
-        }
-        
-        /* Contador de amor */
-        .contador {
-            text-align: center;
-            background: linear-gradient(45deg, #ff6b9d, #ff8e9d);
-            color: white;
-            padding: 15px;
-            border-radius: 15px;
-            margin: 20px 0;
-            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.3);
-        }
-        
-        .contador-numero {
-            font-size: 3rem;
-            font-weight: bold;
-            animation: palpitar 1s infinite;
-        }
-        
-        /* Animaciones */
-        @keyframes latido {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        
-        @keyframes aparecer {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes flotar {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        @keyframes caer {
-            to {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-        
-        @keyframes palpitar {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-        
-        /* Footer */
-        .footer {
-            text-align: center;
-            padding: 20px;
-            background: #fff5f9;
-            color: var(--rosa-oscuro);
-            font-size: 0.9rem;
-            border-top: 1px solid var(--rosa-claro);
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .title {
-                font-size: 2rem;
-            }
-            
-            .nav-buttons {
-                grid-template-columns: 1fr;
-            }
-            
-            .message-text {
-                font-size: 1.3rem;
-            }
-            
-            .content {
-                padding: 20px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .title {
-                font-size: 1.7rem;
-            }
-            
-            .section-title {
-                font-size: 1.5rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="./css/styleIndex.css">
 </head>
 <body>
     <div class="container">
@@ -371,26 +117,115 @@
                 <button class="nav-btn" onclick="mostrarSeccion('sorpresa')">
                     <i class="fas fa-gift"></i> Sorpresa
                 </button>
+                <button class="nav-btn" id="btn-galeria">
+                    <i class="fas fa-folder"></i> Galeria 
+                </button>
+
+                <script>
+                document.getElementById('btn-galeria').addEventListener('click', function() {
+                    window.location.href = './src/galeria.html';
+                });
+                </script>
                 <button class="nav-btn" id="btn-febrero">
                     <i class="fas fa-heart"></i> 14 de Febrero
                 </button>
 
                 <script>
                 document.getElementById('btn-febrero').addEventListener('click', function() {
-                    window.location.href = './src/febrero.html';
+                    window.location.href = './src/carta.html';
+                });
+                </script>
+
+                <button class="nav-btn" id="btn-game">
+                    <i class="fas fa-gamepad"></i> Juegos
+                </button>
+
+                <script>
+                document.getElementById('btn-game').addEventListener('click', function() {
+                    window.location.href = './src/game.html';
                 });
                 </script>
             </div>
         </div>
         
-        <!-- Footer -->
-        <div class="footer">
-            <p>💝 Creado con mucho amor especialmente para Keyla 💝</p>
-            <p id="fecha-actual"></p>
-            <p style="margin-top: 10px; font-size: 0.8rem;">
-                Esta página se actualiza automáticamente con nuevos mensajes de amor
-            </p>
-        </div>
+
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-copyright">
+                    © <strong>2026</strong> Johnny Morales Gómez | Todos los derechos reservados
+                </div>
+            </div>
+        </footer>
+
+<style>
+    /* FOOTER ESTÁTICO - SOLO DISEÑO */
+    .footer {
+        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        color: #ffffff;
+        padding: 25px 0;
+        margin-top: 50px;
+        border-top: 3px solid #ff4081;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        width: 100%;
+        box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        text-align: center;
+    }
+
+    .footer-copyright {
+        font-size: 1rem;
+        letter-spacing: 0.5px;
+        color: #e0e0e0;
+        line-height: 1.6;
+    }
+
+    .footer-copyright strong {
+        color: #ff79a9;
+        font-weight: 600;
+        margin: 0 2px;
+    }
+
+    /* Estilo para tablets */
+    @media (min-width: 768px) and (max-width: 1023px) {
+        .footer {
+            padding: 22px 0;
+        }
+        
+        .footer-copyright {
+            font-size: 0.95rem;
+        }
+    }
+
+    /* Estilo para móviles */
+    @media (max-width: 767px) {
+        .footer {
+            padding: 18px 0;
+            margin-top: 30px;
+        }
+        
+        .footer-copyright {
+            font-size: 0.85rem;
+            padding: 0 15px;
+            line-height: 1.5;
+        }
+        
+        .footer-copyright strong {
+            display: inline-block;
+        }
+    }
+
+    /* Estilo para pantallas muy pequeñas */
+    @media (max-width: 380px) {
+        .footer-copyright {
+            font-size: 0.8rem;
+        }
+    }
+</style>
     </div>
     
     <!-- Contenedor para lluvia de corazones -->

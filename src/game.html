@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory del Amor 💖 | Encuentra Nuestros Recuerdos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffeff7 0%, #ffe8f1 100%);
+            min-height: 100vh;
+            color: #5a2d3a;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .header {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 64, 129, 0.1);
+        }
+        
+        h1 {
+            color: #ff4081;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-family: 'Dancing Script', cursive;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            color: #8a4b76;
+        }
+        
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .stats {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ff4081;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #8a4b76;
+        }
+        
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+            perspective: 1000px;
+        }
+        
+        @media (max-width: 600px) {
+            .game-board {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        .card {
+            height: 120px;
+            cursor: pointer;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+        
+        .card.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 15px;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .card-front {
+            background: linear-gradient(45deg, #ff4081, #ff79a9);
+            color: white;
+            transform: rotateY(180deg);
+        }
+        
+        .card-back {
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            color: white;
+            font-size: 2.5rem;
+        }
+        
+        .card.matched .card-front {
+            background: linear-gradient(45deg, #4CAF50, #8BC34A);
+            animation: pulse 0.5s;
+        }
+        
+        @keyframes pulse {
+            0% { transform: rotateY(180deg) scale(1); }
+            50% { transform: rotateY(180deg) scale(1.1); }
+            100% { transform: rotateY(180deg) scale(1); }
+        }
+        
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        button {
+            background: linear-gradient(45deg, #ff4081, #ff79a9);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 64, 129, 0.3);
+        }
+        
+        button:active {
+            transform: translateY(-1px);
+        }
+        
+        button:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .message-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+        }
+        
+        .message-container.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .message {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 500px;
+            margin: 20px;
+            transform: translateY(50px);
+            transition: transform 0.5s ease;
+        }
+        
+        .message-container.show .message {
+            transform: translateY(0);
+        }
+        
+        .message h2 {
+            color: #ff4081;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+        
+        .hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .heart {
+            position: absolute;
+            font-size: 24px;
+            opacity: 0;
+            animation: fall linear forwards;
+        }
+        
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .couple-photo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #ff4081;
+            margin: 10px auto;
+            display: none;
+        }
+        
+        .card-front img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="hearts" id="heartsContainer"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-heart"></i> Memory del Amor <i class="fas fa-heart"></i></h1>
+            <p class="subtitle">Encuentra las parejas de nuestros recuerdos especiales</p>
+        </div>
+        
+        <div class="game-info">
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value" id="moves">0</div>
+                    <div class="stat-label">Movimientos</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="timer">00:00</div>
+                    <div class="stat-label">Tiempo</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="matches">0/8</div>
+                    <div class="stat-label">Parejas</div>
+                </div>
+            </div>
+            
+            <div class="difficulty">
+                <select id="difficultySelect" onchange="changeDifficulty()">
+                    <option value="8">Fácil (8 parejas)</option>
+                    <option value="12" selected>Normal (12 parejas)</option>
+                    <option value="16">Difícil (16 parejas)</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="game-board" id="gameBoard"></div>
+        
+        <div class="controls">
+            <button onclick="startGame()" id="startBtn">
+                <i class="fas fa-play"></i> Nuevo Juego
+            </button>
+            <button onclick="pauseGame()" id="pauseBtn">
+                <i class="fas fa-pause"></i> Pausar
+            </button>
+            <button onclick="showHint()" id="hintBtn">
+                <i class="fas fa-lightbulb"></i> Pista (3)
+            </button>
+        </div>
+    </div>
+    
+    <div class="message-container" id="messageContainer">
+        <div class="message">
+            <h2 id="messageTitle">¡Felicidades! ❤️</h2>
+            <p id="messageText">Has encontrado todas nuestras parejas especiales.</p>
+            <img src="https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80" 
+                 alt="Foto de pareja" class="couple-photo" id="messagePhoto">
+            <p id="messageScore">Puntuación: 1000</p>
+            <button onclick="hideMessage()" style="margin-top: 20px;">
+                <i class="fas fa-redo"></i> Jugar Otra Vez
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Variables del juego
+        let game = {
+            cards: [],
+            flippedCards: [],
+            matchedPairs: 0,
+            totalPairs: 8,
+            moves: 0,
+            isPlaying: false,
+            timer: 0,
+            timerInterval: null,
+            hints: 3,
+            difficulty: 12,
+            canFlip: true
+        };
+
+        // Emojis y textos para las cartas (puedes personalizar)
+        const cardContents = [
+            { emoji: "❤️", text: "Primer Encuentro", color: "#ff4081" },
+            { emoji: "💑", text: "Primer abrazo", color: "#ff79a9" },
+            { emoji: "🎂", text: "Tu Cumpleaños", color: "#ff9e80" },
+            { emoji: "🎉", text: "Aniversario", color: "#ffcc80" },
+            { emoji: "🎁", text: "Sorpresa Especial", color: "#ffeb3b" },
+            { emoji: "🌹", text: "Flores para Ti", color: "#e91e63" },
+            { emoji: "📞", text: "Llamada de Amor", color: "#9c27b0" },
+            { emoji: "😏", text: "Nuestra frialdad", color: "#3f51b5" },
+            { emoji: "❤️‍🩹", text: "Cosas Romanticas", color: "#2196f3" },
+            { emoji: "🎬", text: "Noche de Películas", color: "#00bcd4" },
+            { emoji: "🎵", text: "Esuchar Música", color: "#009688" },
+            { emoji: "📸", text: "Fotos compartidas nuestros", color: "#4caf50" },
+            { emoji: "🌅", text: "Nuestros saludos matutinos", color: "#8bc34a" },
+            { emoji: "🌙", text: "Noche de instagram", color: "#cddc39" },
+            { emoji: "☕", text: "Café-amarillos de tus ojos", color: "#ff9800" },
+            { emoji: "📖", text: "Historia de Amor", color: "#795548" }
+        ];
+
+        // Inicializar el juego
+        function initGame() {
+            gameBoard.innerHTML = '';
+            game.cards = [];
+            game.flippedCards = [];
+            game.matchedPairs = 0;
+            game.moves = 0;
+            game.timer = 0;
+            game.hints = 3;
+            game.canFlip = true;
+            
+            clearInterval(game.timerInterval);
+            updateStats();
+            
+            // Crear pares de cartas
+            const selectedContents = cardContents.slice(0, game.difficulty / 2);
+            let cardArray = [];
+            
+            selectedContents.forEach((content, index) => {
+                cardArray.push({...content, id: index, matched: false});
+                cardArray.push({...content, id: index, matched: false});
+            });
+            
+            // Mezclar cartas
+            cardArray = shuffleArray(cardArray);
+            game.cards = cardArray;
+            game.totalPairs = game.difficulty / 2;
+            
+            // Crear elementos HTML de las cartas
+            cardArray.forEach((card, index) => {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'card';
+                cardElement.dataset.index = index;
+                
+                const cardFront = document.createElement('div');
+                cardFront.className = 'card-front';
+                cardFront.style.background = card.color;
+                cardFront.innerHTML = `
+                    <div style="text-align: center; padding: 10px;">
+                        <div style="font-size: 2rem;">${card.emoji}</div>
+                        <div style="font-size: 0.8rem; margin-top: 5px;">${card.text}</div>
+                    </div>
+                `;
+                
+                const cardBack = document.createElement('div');
+                cardBack.className = 'card-back';
+                cardBack.innerHTML = '?';
+                
+                cardElement.appendChild(cardFront);
+                cardElement.appendChild(cardBack);
+                cardElement.addEventListener('click', () => flipCard(index));
+                
+                gameBoard.appendChild(cardElement);
+            });
+            
+            updateStats();
+            document.getElementById('hintBtn').innerHTML = `<i class="fas fa-lightbulb"></i> Pista (${game.hints})`;
+        }
+
+        // Mezclar array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Voltear carta
+        function flipCard(index) {
+            if (!game.isPlaying || !game.canFlip || game.cards[index].matched) return;
+            
+            const cardElement = document.querySelector(`.card[data-index="${index}"]`);
+            if (cardElement.classList.contains('flipped')) return;
+            
+            cardElement.classList.add('flipped');
+            game.flippedCards.push(index);
+            
+            if (game.flippedCards.length === 2) {
+                game.canFlip = false;
+                game.moves++;
+                updateStats();
+                
+                const [firstIndex, secondIndex] = game.flippedCards;
+                const firstCard = game.cards[firstIndex];
+                const secondCard = game.cards[secondIndex];
+                
+                if (firstCard.id === secondCard.id) {
+                    // Pareja encontrada
+                    game.matchedPairs++;
+                    game.cards[firstIndex].matched = true;
+                    game.cards[secondIndex].matched = true;
+                    
+                    document.querySelectorAll(`.card[data-index="${firstIndex}"], .card[data-index="${secondIndex}"]`)
+                        .forEach(card => card.classList.add('matched'));
+                    
+                    createHearts(5);
+                    
+                    if (game.matchedPairs === game.totalPairs) {
+                        endGame();
+                    }
+                    
+                    game.flippedCards = [];
+                    game.canFlip = true;
+                } else {
+                    // No son pareja, voltear de nuevo después de un tiempo
+                    setTimeout(() => {
+                        document.querySelectorAll('.card.flipped:not(.matched)').forEach(card => {
+                            card.classList.remove('flipped');
+                        });
+                        game.flippedCards = [];
+                        game.canFlip = true;
+                    }, 1000);
+                }
+            }
+        }
+
+        // Actualizar estadísticas
+        function updateStats() {
+            document.getElementById('moves').textContent = game.moves;
+            document.getElementById('matches').textContent = `${game.matchedPairs}/${game.totalPairs}`;
+            
+            // Formatear tiempo
+            const minutes = Math.floor(game.timer / 60).toString().padStart(2, '0');
+            const seconds = (game.timer % 60).toString().padStart(2, '0');
+            document.getElementById('timer').textContent = `${minutes}:${seconds}`;
+        }
+
+        // Iniciar juego
+        function startGame() {
+            if (game.isPlaying) return;
+            
+            game.isPlaying = true;
+            game.timerInterval = setInterval(() => {
+                game.timer++;
+                updateStats();
+            }, 1000);
+            
+            document.getElementById('startBtn').innerHTML = '<i class="fas fa-redo"></i> Reiniciar';
+            document.getElementById('pauseBtn').disabled = false;
+            document.getElementById('hintBtn').disabled = false;
+            
+            initGame();
+        }
+
+        // Pausar juego
+        function pauseGame() {
+            if (!game.isPlaying) return;
+            
+            if (game.timerInterval) {
+                clearInterval(game.timerInterval);
+                game.timerInterval = null;
+                game.isPlaying = false;
+                document.getElementById('pauseBtn').innerHTML = '<i class="fas fa-play"></i> Continuar';
+                game.canFlip = false;
+            } else {
+                game.timerInterval = setInterval(() => {
+                    game.timer++;
+                    updateStats();
+                }, 1000);
+                game.isPlaying = true;
+                document.getElementById('pauseBtn').innerHTML = '<i class="fas fa-pause"></i> Pausar';
+                game.canFlip = true;
+            }
+        }
+
+        // Mostrar pista
+        function showHint() {
+            if (!game.isPlaying || game.hints <= 0) return;
+            
+            game.hints--;
+            document.getElementById('hintBtn').innerHTML = `<i class="fas fa-lightbulb"></i> Pista (${game.hints})`;
+            
+            // Encontrar cartas no emparejadas
+            const unmatchedCards = game.cards
+                .map((card, index) => ({card, index}))
+                .filter(item => !item.card.matched);
+            
+            if (unmatchedCards.length >= 2) {
+                // Mostrar temporalmente dos cartas que forman pareja
+                const pairs = {};
+                unmatchedCards.forEach(item => {
+                    if (!pairs[item.card.id]) {
+                        pairs[item.card.id] = [];
+                    }
+                    pairs[item.card.id].push(item.index);
+                });
+                
+                // Encontrar un par completo
+                for (const pairId in pairs) {
+                    if (pairs[pairId].length >= 2) {
+                        const [firstIndex, secondIndex] = pairs[pairId];
+                        
+                        // Mostrar las cartas brevemente
+                        setTimeout(() => {
+                            flipCard(firstIndex);
+                            setTimeout(() => flipCard(secondIndex), 300);
+                        }, 100);
+                        
+                        // Ocultar después de un tiempo
+                        setTimeout(() => {
+                            document.querySelectorAll('.card.flipped:not(.matched)').forEach(card => {
+                                card.classList.remove('flipped');
+                            });
+                            game.flippedCards = [];
+                            game.canFlip = true;
+                        }, 1500);
+                        
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Cambiar dificultad
+        function changeDifficulty() {
+            game.difficulty = parseInt(document.getElementById('difficultySelect').value);
+            if (game.isPlaying) {
+                initGame();
+            }
+        }
+
+        // Terminar juego
+        function endGame() {
+            clearInterval(game.timerInterval);
+            game.isPlaying = false;
+            
+            // Calcular puntuación
+            const score = Math.max(1000, 5000 - (game.moves * 10) - (game.timer * 5));
+            
+            // Mostrar mensaje de victoria
+            document.getElementById('messageTitle').textContent = '¡Felicidades! ❤️';
+            document.getElementById('messageText').textContent = 
+                `Has encontrado todas nuestras ${game.totalPairs} parejas especiales en ${game.moves} movimientos y ${Math.floor(game.timer/60)}:${(game.timer%60).toString().padStart(2, '0')} minutos.`;
+            document.getElementById('messageScore').textContent = `Puntuación: ${score}`;
+            document.getElementById('messagePhoto').style.display = 'block';
+            
+            document.getElementById('messageContainer').classList.add('show');
+            
+            // Lanzar corazones
+            createHearts(50);
+        }
+
+        // Ocultar mensaje
+        function hideMessage() {
+            document.getElementById('messageContainer').classList.remove('show');
+            document.getElementById('messagePhoto').style.display = 'none';
+        }
+
+        // Crear corazones animados
+        function createHearts(count) {
+            const container = document.getElementById('heartsContainer');
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart';
+                    heart.innerHTML = '❤️';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                    heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    heart.style.opacity = '1';
+                    
+                    container.appendChild(heart);
+                    
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 5000);
+                }, i * 100);
+            }
+        }
+
+        // Inicializar al cargar
+        document.addEventListener('DOMContentLoaded', () => {
+            initGame();
+            // Mostrar instrucciones iniciales
+            setTimeout(() => {
+                document.getElementById('messageTitle').textContent = 'Instrucciones 🎮';
+                document.getElementById('messageText').textContent = 
+                    'Encuentra todas las parejas de cartas iguales. Cada pareja representa un recuerdo especial nuestro. ¡Tienes 3 pistas!';
+                document.getElementById('messageScore').textContent = 'Haz clic en "Nuevo Juego" para comenzar';
+                document.getElementById('messagePhoto').style.display = 'none';
+                document.getElementById('messageContainer').classList.add('show');
+            }, 1000);
+        });
+
+        // Permitir espacio para reiniciar
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                startGame();
+            }
+        });
+    </script>
+    <footer class="footer">
+    <div class="footer-container">
+        <div class="footer-copyright">
+            © <strong>2026</strong> Johnny Morales Gómez | Todos los derechos reservados
+        </div>
+    </div>
+</footer>
+
+<style>
+    /* FOOTER ESTÁTICO - SOLO DISEÑO */
+    .footer {
+        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        color: #ffffff;
+        padding: 25px 0;
+        margin-top: 50px;
+        border-top: 3px solid #ff4081;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        width: 100%;
+        box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        text-align: center;
+    }
+
+    .footer-copyright {
+        font-size: 1rem;
+        letter-spacing: 0.5px;
+        color: #e0e0e0;
+        line-height: 1.6;
+    }
+
+    .footer-copyright strong {
+        color: #ff79a9;
+        font-weight: 600;
+        margin: 0 2px;
+    }
+
+    /* Estilo para tablets */
+    @media (min-width: 768px) and (max-width: 1023px) {
+        .footer {
+            padding: 22px 0;
+        }
+        
+        .footer-copyright {
+            font-size: 0.95rem;
+        }
+    }
+
+    /* Estilo para móviles */
+    @media (max-width: 767px) {
+        .footer {
+            padding: 18px 0;
+            margin-top: 30px;
+        }
+        
+        .footer-copyright {
+            font-size: 0.85rem;
+            padding: 0 15px;
+            line-height: 1.5;
+        }
+        
+        .footer-copyright strong {
+            display: inline-block;
+        }
+    }
+
+    /* Estilo para pantallas muy pequeñas */
+    @media (max-width: 380px) {
+        .footer-copyright {
+            font-size: 0.8rem;
+        }
+    }
+</style>
+</body>
+</html>

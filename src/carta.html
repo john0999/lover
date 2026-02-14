@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Una Carta para Ti ❤️</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/StyleCarta.css">
+    <link rel="stylesheet" href="../css/modal.css">
+    <link rel="stylesheet" href="../css/animations.css">
+
+    <!-- Fuente -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="../images/logo.png">
+</head>
+
+<body>
+
+<div class="envoltorio">
+
+    <div class="sello">CONFIDENCIAL<br>❤️</div>
+
+    <div class="carta">
+        <div class="fecha">14 de Febrero, 2026</div>
+
+        <h1 class="saludo" id="saludo">Para Mi Amor ❤️</h1>
+
+        <div class="contenido">
+            <p>Querida Keyla,</p>
+
+            <p>
+                Hoy, mientras el mundo celebra el amor,
+                yo celebro tenerte a ti en mi vida.
+            </p>
+
+            <!-- AUDIO -->
+        <div class="audio-player">
+            <button class="play-btn" onclick="toggleMusic()">🎵</button>
+            <span>Escucha esta canción mientras lees</span>
+            <audio id="audio">
+                <source src="../audio/Brillo_Mío.mp3" type="audio/mpeg">
+            </audio>
+        </div>
+
+            <!-- BOTÓN -->
+            <button class="btn-secret" onclick="openModal()">
+                ✨ Ver mensaje secreto ✨
+            </button>
+
+            <!-- MODAL -->
+            <div id="modalSecreto" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="closeModal()">&times;</span>
+                    <h2>💖 Para ti 💖</h2>
+                    <p>
+                        Eres la razón por la que creo en el destino.
+                        Cada risa, cada mirada, cada momento contigo
+                        es un tesoro que guardo en el corazón.
+                    </p>
+                </div>
+            </div>
+
+            <p>
+                Prometo cuidarte incluso en silencio,
+                elegirte incluso en la distancia
+                y amarte incluso cuando no me veas.
+            </p>
+            <p>
+            <p><strong>Recuerdo la primera vez que te vi, Keyla.</strong> En ese instante supe que mi vida cambiaría para siempre. Intenté encontrar la forma de acercarme a ti, y aunque cada intento parecía alejarme más, nunca perdí la esperanza, porque en el fondo sabía que nuestro encuentro estaba escrito en las estrellas.</p>
+
+            <p>Hasta que un día decidí buscarte por mi propia cuenta… y te encontré. Desde ese momento supe que quería compartir mi tiempo contigo, mis días y mis sueños. No fue fácil, tuve que enfrentar mis propios miedos e inseguridades para acercarme a ti, pero cada esfuerzo valió la pena, porque al final logré estar cerca de ti.</p>
+
+            <p>Sé que no fue sencillo ganarme tu confianza, pero con paciencia, respeto y sinceridad, abrí mi corazón para demostrarte que lo que sentía por ti era real. Y hoy que estamos juntos, cada día a tu lado es un regalo que valoro y atesoro profundamente. Gracias por darme la oportunidad de amarte y de ser amado por ti.</p>
+
+            <p>Te prometo seguir construyendo nuestro amor con respeto, comprensión y mucha alegría, porque no quiero perder algo tan hermoso que con tanto esfuerzo logré conquistar.</p>
+
+            <p>Sé que la distancia nos separa y que a veces las inseguridades aparecen en tu mente. Quiero que sepas que yo también las siento, pero aun así, mi amor por ti no disminuye; al contrario, crece cada día. Confía en mí, en lo que siento y en lo que te digo.</p>
+
+            <p>Y si algún día las dudas o los chismes pesan más, quiero que sepas que mi mayor deseo es que estemos juntos, que vivamos uno al lado del otro, para que puedas ver con hechos que todo lo que te digo es verdad.</p>
+
+            <p><strong>Con todo mi amor, siempre tuyo. ❤️</strong></p>
+
+            </p>
+        </div>
+
+        <div class="firma">
+            Johnny Morales Gómez
+        </div>
+
+    </div>
+    <footer class="footer">
+    <div class="footer-container">
+        <div class="footer-copyright">
+            © <strong>2026</strong> Johnny Morales Gómez | Todos los derechos reservados
+        </div>
+    </div>
+</footer>
+
+<style>
+    /* FOOTER ESTÁTICO - SOLO DISEÑO */
+    .footer {
+        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        color: #ffffff;
+        padding: 25px 0;
+        margin-top: 50px;
+        border-top: 3px solid #ff4081;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        width: 100%;
+        box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        text-align: center;
+    }
+
+    .footer-copyright {
+        font-size: 1rem;
+        letter-spacing: 0.5px;
+        color: #e0e0e0;
+        line-height: 1.6;
+    }
+
+    .footer-copyright strong {
+        color: #ff79a9;
+        font-weight: 600;
+        margin: 0 2px;
+    }
+
+    /* Estilo para tablets */
+    @media (min-width: 768px) and (max-width: 1023px) {
+        .footer {
+            padding: 22px 0;
+        }
+        
+        .footer-copyright {
+            font-size: 0.95rem;
+        }
+    }
+
+    /* Estilo para móviles */
+    @media (max-width: 767px) {
+        .footer {
+            padding: 18px 0;
+            margin-top: 30px;
+        }
+        
+        .footer-copyright {
+            font-size: 0.85rem;
+            padding: 0 15px;
+            line-height: 1.5;
+        }
+        
+        .footer-copyright strong {
+            display: inline-block;
+        }
+    }
+
+    /* Estilo para pantallas muy pequeñas */
+    @media (max-width: 380px) {
+        .footer-copyright {
+            font-size: 0.8rem;
+        }
+    }
+</style>
+</div>
+
+<!-- JS -->
+<script src="../js/animations.js"></script>
+<script src="../js/modal.js"></script>
+<script src="../js/audio.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,97 @@
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 400px;
+    text-align: center;
+    animation: fade 0.4s ease;
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    cursor: pointer;
+    font-size: 1.8rem;
+    color: #ff4081;
+}
+
+@keyframes fade {
+    from { opacity: 0; transform: scale(.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+
+.btn-secret {
+    margin: 30px auto;
+    padding: 14px 32px;
+    display: block;
+
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.3rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+
+    color: #fff;
+    background: linear-gradient(135deg, #ff5f9e, #ff85b3);
+    border: none;
+    border-radius: 50px;
+
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(255, 64, 129, 0.35);
+    position: relative;
+    overflow: hidden;
+
+    transition: all 0.35s ease;
+}
+
+/* Brillo animado */
+.btn-secret::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 50%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.35);
+    transform: skewX(-20deg);
+    transition: left 0.6s ease;
+}
+
+/* Hover */
+.btn-secret:hover::before {
+    left: 130%;
+}
+
+.btn-secret:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 12px 30px rgba(255, 64, 129, 0.45);
+}
+
+/* Click */
+.btn-secret:active {
+    transform: scale(0.96);
+}
+
+/* Pequeño latido */
+@keyframes latido {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.06); }
+}
+
+.btn-secret {
+    animation: latido 2.5s infinite;
+}
